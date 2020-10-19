@@ -1,0 +1,49 @@
+// no. of digit in the given no.
+#include<bits/stdc++.h>
+
+using namespace std;
+
+// TC : theta(no. of digit)
+int iterative(int n)
+{
+	int cnt = 0;
+	
+	while(n != 0)
+	{
+		cnt++;
+		n /= 10;
+	}
+	return cnt;
+}
+
+// TC : theta(no. of digit)
+int recursive(int n)
+{
+	if(n == 0)
+		return 0;
+	
+	return 1 + recursive(n / 10);  
+}
+
+// TC : theta(1)
+int formula(int n)
+{
+	/*
+	 *  let 	log10(100) = x 
+	 * 	then,  	10^x = 100
+	 *  i.e, 	x = 2,		so the total no. of digit is x + 1; 
+	 */
+	return floor(log10(n)) + 1;
+}
+
+int main()
+{
+	int n;
+	cin >> n; // Enter the no. for you want to find the total digit
+	
+	cout << iterative(n) << endl;
+	cout << recursive(n) << endl;
+	cout << formula(n) << endl;
+	
+	return 0;
+}
