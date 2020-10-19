@@ -1,0 +1,157 @@
+/*		Date : 10-10-20		(PRIME NUMBERS)
+*
+* Prime nos
+*	Primality test : Check wheather a no is prime or not :-
+*		1. Navie Approach
+*		2. Better 
+*		3. Much Better : We can use a simple check for n % 2 == 0 || n % 3 == 0. Coz any nos multiple of 2 and 3 cannot be a prime nos except the corner case.
+*	Range Query :- 
+* 		4. Sieve Erathosthenes : Find all Prime nos in a given range upto 10^6.
+*		5. Segmented Sieve	: Find all Prime nos in a given segment upto goes 10^19 also.
+*		6. Segmented Better : No need to generate all the prime nos first.
+*/
+
+#include<bits/stdc++.h>
+#define ll long long int
+
+using namespace std;
+const int MAX = 1000;
+bool ar[MAX + 1];
+vector<int> listOfPrime;
+
+// TC : O(n)
+// AS : O(1)
+string isPrimeNavie(int n)
+{
+	if(n == 1)	return "1 is not include in Prime";
+	
+	for(int i = 2; i < n; i++)
+		if(n % i == 0)
+			return "NO";
+	
+	return "YES";
+}
+
+// TC : O(sqrt(n))
+// AS : O(1)
+string isPrimeBetter(int n)
+{
+	if(n == 1)	return "1 is not include in Prime";
+	
+	for(int i = 2; i * i <= n; i++)
+		if(n % i == 0)
+			return "NO";
+	
+	return "YES";
+}
+
+// TC : O(sqrt(n) / 2)
+// AS : O(1)
+string isPrimeMuchBetter(int n)
+{
+	if(n == 1)	return "1 is not include in Prime";
+	
+	if(n == 2 || n == 3)	// Corner case	
+		return "YES";
+		
+	if(n % 2 == 0 || n % 3 == 0)	// Multiple of 2 and 3
+		return "NO";
+	
+	for(int i = 5; i * i <= n; i += 6)
+		if(n % i == 0 || n % (i + 2) == 0)
+			return "NO";
+			
+	return "YES";
+}
+
+// TC : O(nloglogn)
+// AS : Theta(MAX)
+void sieve()
+{
+	memset(ar, true, sizeof ar);
+	ar[0] = ar[1] = false;
+	
+	for(int i = 2; i * i <= MAX; i++)
+		if(ar[i])
+			for(int j = i * i; j <= MAX; j += i)
+				ar[j] = false;
+
+	// Segmented sieve				
+	for(int i = 0; i <= MAX; i++)
+		if(ar[i])
+			listOfPrime.push_back(i);
+}
+
+// TC : O((R - L + 1) loglog(R) + sqrt(R) loglog sqrt(R))
+// AS : O(n)
+void segmentedSieve(int L, int R)
+{
+	if(L == 1)	L++;
+	sieve();
+	int size = R - L + 1;
+	
+	bool isPrime[size];
+	memset(isPrime, true, sizeof isPrime);
+	
+	for(int i = 0; i < listOfPrime.size(); i++)
+	{
+		int ele = listOfPrime[i];
+		if(ele * ele <= R)
+		{
+			int x = (L / ele) * ele;
+			if(x < L)	x += ele;
+			
+			for(int i = x; i <= R; i += ele)
+				if(i != ele)
+					isPrime[i - L] = false;
+		}
+	}
+	
+	for(int i = 0; i < size; i++)
+		if(isPrime[i])
+			cout << L + i << " ";
+	
+	cout << endl;
+}
+
+// Shoter version of segmented sieve where no need to gen. all prime nos.
+// TC : O((R - L + 1)log(R) + sqrt(R)) 
+vector<bool> segmentedSieveNoPreGen(ll L, ll R) 
+{
+    vector<bool> isPrime(R - L + 1, true);
+    ll lim = sqrt(R);
+    
+    for (ll i = 2; i <= lim; ++i)
+        for (ll j = max(i * i, (L + i - 1) / i * i); j <= R; j += i)
+            isPrime[j - L] = false;
+            
+    if (L == 1)
+        isPrime[0] = false;
+        
+    return isPrime;
+}
+
+int main()
+{
+	int n;
+	cin >> n;
+	
+	cout << isPrimeNavie(n) << endl;
+	cout << isPrimeBetter(n) << endl;
+	cout << isPrimeMuchBetter(n) << endl;
+	
+	sieve();	
+	cout << ((ar[n]) ? "YES" : "NO") << endl;
+	
+	segmentedSieve(1, 20);
+	
+	vector<bool> primes;
+	primes = segmentedSieveNoPreGen(101, 200); 
+	cout << endl;
+	for(int i = 0; i < primes.size(); i++)
+		if(!primes[i])
+			cout << i << " ";
+		
+	return 0;
+}
+	
