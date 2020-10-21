@@ -1,0 +1,48 @@
+/*			Calculate n raised to m i.e n^m
+ *		1. Navie approach multiple with each power of n
+ *      2. Better approach i.e fast exponentiation which is based on the fact  
+ *				if m is even so we can write as (n^2)^m/2
+ 				if m is odd so we can write it as n * (n^m - 1)
+ */
+#include<bits/stdc++.h>
+#define ll long long int
+
+using namespace std;
+
+// TC : O(n)
+// AS : O(1)
+ll calPower(int n, int m)
+{
+	int res = 1;
+	for(int i = 1; i <= m; i++)
+		res = res * n;
+	
+	return res;
+}
+
+// TC : O(log n)
+// AS : O(1)
+ll fastPower(int n, int m)
+{
+	int res = 1;
+
+	while(m > 0)
+	{
+		if(m&1)		res = res * n;
+		
+		n = n * n;
+		m = m >> 1;
+	}
+	
+	return res;
+}
+
+int main()
+{
+	int n,m;
+	cin >> n >> m;
+	
+	cout << calPower(n, m) << endl;
+	cout << fastPower(n, m) << endl;
+	return 0;
+}
