@@ -1,0 +1,99 @@
+/*			29-10-20		(COUNT THE NUMBER OF SET BITS)
+ *	
+ *	1. Using right shift operator.
+ 						** Will simple right shift the number by 1 and check the last bit is set or not.
+ 						
+ *	2. Using BRIAN KERNINGAM ALGO.  	(Standard algo for count set bits)
+ 						** Example :-
+ 										n = 40 = 0 0 1 0   1 0 0 0
+ 							(n - 1) = 39 = 0 0 1 0   0 1 1 1
+					(n & n - 1) = 32 = 0 0 1 0   0 0 0 0
+							  
+							  * The last set bit in n is fade away. Now n becomes 32.
+							  
+							  	   n = 32 = 0 0 1 0   0 0 0 0
+ 							 (n - 1) = 31 = 0 0 0 1   1 1 1 1
+					 (n & n - 1) = 00 = 0 0 0 0   0 0 0 0
+							  
+							  * The last set bit in n is also fade away. 
+							  
+ *	3. Lookup Table.
+ 						** Will bunch the 32 bit no. into set of 8 bits and count the set bits in the chunck of 8 bits.
+ */
+ 
+ #include <bits/stdc++.h>
+ 
+ using namespace std;
+ int table[257];
+ 
+ // TC : theta (total no. of bits)
+ // AS : O(1)
+ int rightShift(int n)
+ {
+ 	int cnt = 0;
+ 	while(n > 0)
+ 	{
+ 		if(n & 1)	cnt++;
+		n = n >> 1;	
+	}
+	
+	return cnt;
+ }
+ 
+ // TC : theta (no. of set bits)
+ // AS : O(1)
+ int brianKerAlgo(int n)
+ {
+ 	int cnt = 0;
+ 	
+ 	while(n > 0)
+ 	{
+ 		cnt ++;
+ 		n = n & (n - 1);
+	}
+	
+	return cnt;
+ }
+ 
+ // Helper method for lookup table
+ void init()
+ {
+ 	table[0] = 0;
+ 	for(int i = 1; i < 256; i++)
+ 		table[i] = (i & 1) + table[i / 2];
+ }
+ 
+ // TC : theta (1)
+ // AS : O(1)
+ int lookup(int n)
+ {
+ 	init();
+ 	int res;
+ 	
+ 	res = table[(n & 0xff)];
+ 	n = n >> 8;
+ 	
+ 	res += table[(n & 0xff)];
+ 	n = n >> 8;
+ 	
+ 	res += table[(n & 0xff)];
+ 	n = n >> 8;
+ 	
+ 	res += table[(n & 0xff)];
+ 	
+ 	return res;
+ }
+ 
+ int main()
+ {
+ 	int n;
+ 	cin >> n;
+ 	
+ 	cout << rightShift(n) << endl;
+ 	
+ 	cout << brianKerAlgo(n) << endl;
+ 	
+ 	cout << lookup(n) << endl;
+ 	
+ 	return 0;
+ }
