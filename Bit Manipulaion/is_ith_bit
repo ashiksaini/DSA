@@ -1,0 +1,51 @@
+/*			29-10-20		(CHECK THE ith BIT IS SET OR NOT)
+ *	
+ *	1. Using left shift operator.
+ 								Example: n = 5 & i = 3
+ 										
+ 										n = 0 1 0 1
+ 							   1 << i - 1 = 0 1 0 0
+ 				 val   = (n & 1 << i - 1) = 0 1 0 0
+ 				 
+ 				 * If val is 0 the there is no bit is set.
+ 				 	else val is 1 at the ith pos and my decimal rep. of val is not 0 then my ith bit is set.
+
+ *	2. Using right shift operator.
+ 								Example: n = 5 & i = 3
+ 										
+ 										n = 0 1 0 1
+ 							   n >> i - 1 = 0 0 0 1
+ 				 val   = (n & n >> i - 1) = 0 0 0 1
+ 				 
+ 				 * If val is 0 the there is no bit is set.
+ 				 	else val is 1 at the end and my decimal rep. of val is not 0 then my ith bit is set.
+ */
+ 
+#include<bits/stdc++.h>
+
+using namespace std;
+
+void leftShift(int n, int i)
+{
+	int val = 1 << (i - 1);
+	
+	cout << ((n & val) ? "YES" : "NO") << endl; 
+}
+
+void rightShift(int n, int i)
+{
+	n = n >> (i - 1);
+
+	cout << ((n & 1) ? "YES" : "NO") << endl;
+}
+
+int main()
+{
+	int n, i;
+	cin >> n >> i;
+	
+	leftShift(n, i);
+	rightShift(n, i);
+	
+	return 0;	
+} 	
