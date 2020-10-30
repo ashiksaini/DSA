@@ -1,0 +1,67 @@
+/*			30-10-20		(CHECK A NUMBER IS POWER OF TWO OR NOT)
+ *
+ *	1. Navie Approach : Will divide the number by 2 till it will become 1, or in between this process if the number become odd then the number is 
+ 						            power of 2.
+ *	
+ *  2. Fact : The number that contain only 1 set bit is the number having power of 2. So by using BRIAN KERNINGUM ALGO will find the set bit in the
+ 					number. If it is 1 then the number is power of 2. Else not.
+ *			
+ *  3. Best approach : The & operator will toggle the last set bit in a number if we took n & n - 1. If it contain only 1 set bit it will become 0.
+ 						Else the number is not power of 2.
+ */
+ 
+ #include <bits/stdc++.h>
+ 
+ using namespace std;
+ 
+ // TC : theta (total no. of bits)
+ // AS : O(1)
+ bool navie(int n)
+ {
+ 	if(n == 0)	return false;
+ 	
+ 	while(n != 1)
+ 	{
+ 		if(n & 1)	return false;
+		
+		n = n >> 1;	
+	}
+	
+	return true;
+ }
+ 
+ // TC : theta (total no. of set bits)
+ // AS : O(1)
+ bool fact(int n)
+ {
+ 	if(n == 0)	return false;
+ 	
+	int cnt = 0;
+ 	
+ 	while(n > 0)
+ 	{
+ 		cnt ++;
+		n = (n & (n - 1));	
+	}	
+	
+	return (cnt == 1) ? true : false;
+ }
+ 
+ // TC : theta (1)
+ // AS : O(1)
+ bool best(int n)
+ {
+ 	return (n != 0 && (n & (n - 1)) == 0);
+ }
+ 
+ int main()
+ {
+ 	int n;
+ 	cin >> n;
+ 	
+ 	cout << (navie(n) ? "True" : "False") << endl;
+ 	cout << (fact(n) ? "True" : "False") << endl;
+ 	cout << (best(n) ? "True" : "False") << endl;
+ 	
+ 	return 0;
+ }
