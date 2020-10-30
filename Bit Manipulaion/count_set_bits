@@ -1,4 +1,4 @@
-/*			29-10-20		(COUNT THE NUMBER OF SET BITS)
+/*			29-10-20																				(COUNT THE NUMBER OF SET BITS)
  *	
  *	1. Using right shift operator.
  						** Will simple right shift the number by 1 and check the last bit is set or not.
