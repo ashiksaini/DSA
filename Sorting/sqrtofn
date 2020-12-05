@@ -1,0 +1,69 @@
+/*			SQURARE ROOT OF A NUMBER 		(05-12-20)
+ *
+ *		There are 2 ways to do this :-
+ *		1. Navie solution : We traverse the range from [1, N] if we found a number whose square is greater than N then we simply return that
+ *							number - 1. or if it is the perfect square then we return that number.
+ *			TC : O(sqrt(N))
+ *			AC : O(1)
+ *
+ *		2. Binary Search : We use binary search in the range [1, N], then there is 3 condition aries.
+ *						1. if the square of the mid is equal to the given number then return that number.
+ *						2. if the square of the mid is greater than the number then we search in the upper half of the range.
+ *						3. if the square of the mid is less than the number then we store the answer and begin the search in lower half of the range.
+ *			TC : O(log(N)
+ *			AS : O(1)
+ */
+ 
+ #include<bits/stdc++.h>
+ 
+ using namespace std;
+ 
+ int sqrtNavie(int n)
+ {
+	int i = 1;
+ 	
+	for(; i <= n;)
+		if(i * i <= n)
+			i++;
+		else
+			break;
+ 		
+	return i - 1;
+ }
+ 
+ int sqrtBin(int n)
+ {
+	int res = 0;
+	int low = 1, high = n;
+ 	
+	while(low <= high)
+	{
+		int mid = (low + high) / 2;
+		int sqrmid = mid * mid;
+		
+		if(sqrmid == n)
+			return mid;
+		
+		else if(n < sqrmid)
+			high = mid - 1;
+		
+		else
+		{
+			low = mid + 1;
+			res = mid;
+		}
+	}
+	
+	return res;
+ 	
+ }
+ 
+ int main()
+ {
+	int n;
+	cin >> n;
+ 	
+	cout << sqrtNavie(n) << "\n";
+	cout << sqrtBin(n) << "\n";
+	return 0;
+ }
