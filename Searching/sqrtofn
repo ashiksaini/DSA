@@ -58,6 +58,27 @@
  	
  }
  
+ long long int floorSqrt(long long int x) 
+{
+    if(x == 1)
+    	return 1;
+	
+    long long int l = -1;
+    long long int r = x;
+    
+    while(r > l + 1)
+    {
+        long long int m = (l + r) / 2;
+        
+        if(x >= m * m)
+            l = m;
+        else
+            r = m;
+    }
+    
+    return ((l < 0) ? l + 1 : l);
+}
+ 
  int main()
  {
 	int n;
@@ -65,5 +86,6 @@
  	
 	cout << sqrtNavie(n) << "\n";
 	cout << sqrtBin(n) << "\n";
+	cout << floorSqrt(n)  << "\n";
 	return 0;
  }
