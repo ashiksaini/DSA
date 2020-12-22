@@ -1,0 +1,42 @@
+/**				BUBBLE SORT (22-12-2020)
+  * 	
+  *		IDEA : In bubble sort the main idea is to compare the adjcent element if previous
+  *				one is greater than the current one then swap them by this the largest element
+  *				at the end.
+  *
+  *		TC : O(n^2)
+  *		AS : O(1)					
+  **/
+#include <bits/stdc++.h>
+using namespace std;
+
+void swap(int& a, int& b)
+{
+	int temp = a;
+	a = b;
+	b = temp;
+}
+
+void bubbleSort(int arr[], int n)
+{
+	for(int i = 0; i < n - 1; i++)
+	{
+		for(int j = 0; j < n - i - 1; j++)
+		{
+			if(arr[j] > arr[j + 1])
+				swap(arr[j], arr[j + 1]);
+		}
+	}
+}
+
+int main()
+{
+	int n = 11;
+	int arr[] = {0, 10, 6, 3, 1, 5, 7, 9, 8, 2, 4};
+	
+	bubbleSort(arr, n);
+	
+	for(int ele : arr)	cout << ele << " ";
+	cout << "\n";
+	return 0;
+}
