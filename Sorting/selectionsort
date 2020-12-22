@@ -1,0 +1,45 @@
+/**				SELECTION SORT (22-12-2020)
+ *			
+ *		IDEA : Find the minimum element in the array and place it from the staring positions.
+ *				Its gives the basic idea for heap sort
+ *				Unstable algorithm
+ *				In-place algorithm		
+ *
+ *		TC : O(n^2)
+ *		AS : O(1)
+ *		
+**/
+
+#include <bits/stdc++.h>
+using namespace std;
+
+void selectionsort(int arr[], int n)
+{
+	for(int i = 0; i < n - 1; i++)
+	{
+		int minele = arr[i];
+		int minindex = i;
+		for(int j = i + 1; j < n; j++)
+		{
+			if(minele > arr[j])
+			{
+				minindex = j;
+				minele = arr[j];
+			}	
+		}
+		
+		swap(arr[i], arr[minindex]);
+	}
+}
+
+int main()
+{
+	int n = 11;
+	int arr[] = {0, 10, 6, 3, 1, 5, 7, 9, 8, 2, 4};
+	
+	selectionsort(arr, n);
+	
+	for(int i : arr)	cout << i << " ";
+	cout << "\n";
+	return 0;
+}
