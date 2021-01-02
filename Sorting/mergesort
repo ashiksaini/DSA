@@ -1,0 +1,79 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
+void merge(int v[], int l, int r, int mid)
+{
+	int s1 = mid - l + 1;
+	int s2 = r - mid;
+	
+	int left[s1];
+	int right[s2];
+	
+	for(int i = 0; i < s1; i++)
+		left[i] = v[l + i];
+	
+	for(int i = 0; i < s2; i++)
+		right[i] = v[mid + 1 + i];
+		
+	int i = 0, j = 0, k = l;
+	
+	while(i < s1 && j < s2)
+	{
+		if(left[i] <= right[j])
+		{
+			v[k] = left[i];
+			i++;	
+		}	
+		else
+		{
+			v[k] = right[j];
+			j++;
+		}
+		
+		k++;
+	}	
+	
+	while(i < s1)
+	{
+		v[k] = left[i];
+		i++, k++;
+	}
+	
+	while(j < s2)
+	{
+		v[k] = right[j];
+		j++, k++;
+	}
+}
+
+void mergeSort(int v[], int l, int r)
+{
+	if(l < r)
+	{
+		int mid = l + (r - l) / 2; 		// it is same as (l + r) / 2 to prevent overflow we write is like that..
+			
+		mergeSort(v, l, mid);			// divide the array
+		mergeSort(v, mid + 1, r);		// divide another array
+		
+		merge(v, l, r, mid);			// merge array
+	}
+}
+
+int main()
+{
+	int n;
+	cin >> n;
+	
+	int v[n];
+	for(int i = 0; i < n; i++)
+		cin >> v[i];
+	
+	mergeSort(v, 0, n - 1);
+	
+	// print sorted array
+	for(int i = 0; i < n; i++)
+		cout << v[i] << " ";
+	
+	return 0;
+}
