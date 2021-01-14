@@ -23,6 +23,24 @@
  
  using namespace std;
  
+ int searchBin(vector<int> v, int x)
+{
+    int l = -1; // v[l] <= x
+    int r = v.size(); // v[r] > x
+ 
+    while(r > l + 1)
+    {
+        int mid = (l + r) / 2;
+ 
+        if(v[mid] <= x)
+            l = mid;
+        else
+            r = mid;
+    }
+    
+    return (l + 1);
+}
+ 
  int searchBinaryIterative(int arr[], int n, int x)
  {
  	int l = 0, r = n - 1;
