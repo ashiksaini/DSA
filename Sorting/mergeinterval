@@ -1,0 +1,52 @@
+/**				MERGE OVERLAPPING INTERVAL	(17-01-2021)
+ *
+ *		We are given n overlapping intervals and we have to merge the overlapping intervals.
+ *		This can be done by sort the pairs of the intervals by first value in inc. order. Then will merge the interval.
+ *
+ *		TC : O(n log n)
+ *		AS : O(1) 
+ **/
+ 
+ #include<bits/stdc++.h>
+ using namespace std;
+ 
+ int mergeinterval(pair<int, int> p[], int n)
+ {
+ 	sort(p, p + n);
+ 	int res = 0;
+ 	
+ 	for(int i = 1; i < n; i++)
+ 	{
+ 		if(p[res].second >= p[i].first)
+		{
+			p[res].first = min(p[res].first, p[i].first);
+			p[res].second = max(p[res].second, p[i].second);	
+		}	
+		else
+		{
+			res ++;
+			p[res] = p[i];
+		}
+	}
+ 	
+ 	return res;
+ }
+ 
+ int  main()
+ {
+ 	int n;
+ 	cin >> n;
+ 	
+ 	pair<int, int> v[n];
+ 	for(int i = 0; i < n; i++)
+ 		cin >> v[i].first >> v[i].second;
+ 	
+ 	int val = mergeinterval(v, n);
+ 	
+ 	cout << "{ ";
+ 	for(int i = 0; i <= val; i++)
+ 		cout << "{"<< v[i].first << ", " << v[i].second << "}";
+ 	cout << " }";
+ 	
+ 	return 0;
+ }
