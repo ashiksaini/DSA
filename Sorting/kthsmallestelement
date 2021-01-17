@@ -1,0 +1,71 @@
+/**				Kth smallest element	(17-01-2021)
+ *
+ *		-We are gievn an array and we want to find the kth smallest element in the given array.
+ *		-This algorithm is genrally used in real world.
+ *		-Also called QuickSelect algo.
+ *		-Uses Lumoto Partition.		
+ *
+ *		-We can simply sort the array and return k - 1 element.
+ *			TC : O(n log n)
+ *
+ *		-Another way to do this problem by using lumoto partition
+ *			TC : O(n)	(assumed that pivot is random)
+ *
+ **/
+ 
+ #include<bits/stdc++.h>
+ using namespace std;
+ 
+ int lumotoPartition(vector<int> v, int l, int h)
+ {
+ 	int p = v[h];
+ 	int i = l - 1;
+ 	for(int j = l; j < h; j++)
+ 	{
+ 		if(v[j] <= p)
+		{
+			i++;
+			swap(v[i], v[j]);
+		}
+		else
+			continue;	
+	}
+	
+	swap(v[i + 1], v[h]);
+	return i + 1;
+ }
+ 
+ int kthSmallest(vector<int> v, int n, int k)
+ {
+ 	int l = 0, r = n - 1;
+ 	while(l <= r)
+ 	{
+		int p = lumotoPartition(v, l, r);
+		 
+		if(p == k - 1)
+			return p;
+		else if(p > k - 1)
+			r = p - 1;
+		else
+			l = p + 1;	
+	}
+	
+	return -1;
+ }
+ 
+ int main()
+ {
+ 	int n, k;
+ 	cin >> n >> k;
+ 	
+ 	vector<int> v(n);
+ 	for(int i = 0; i < n; i++)	cin >> v[i];
+ 	
+ 	int val = kthSmallest(v, n, k);
+ 	if(val != -1)
+ 		cout << "kth smallest element is : " << v[val + 1] << "\n";
+ 	else
+ 		cout << "Kth INDEX OUT OF RANGE\n";
+ 		
+ 	return 0;
+ }
