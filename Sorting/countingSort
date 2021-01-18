@@ -1,0 +1,101 @@
+/*			COUNTING SORT	(18-01-2021)
+ *
+ *		- Non Comparision based algorithm.
+ *		- Stable algo.
+ *		- We use frequency of the element occ. in the original array and print that element those many times.
+ *		- This algo is used for short range of element, ie, k is atmax is same as k.
+ *		- This algo is not prefferd when range of the element is order of n^2, n^3.
+ *		
+ *			TC : O(n + k)		k : range of the element.
+ *			AS : O(n + k)
+ */
+#include<bits/stdc++.h>
+using namespace std;
+
+void naviecountingSort(vector<int>& ar, int n) {
+	int mx = INT32_MIN;
+	
+	// Find the max and min element so that we can define the size of freq array.
+	for(int i = 0; i < n; i++) {
+		mx = max(mx, ar[i]);
+	}
+
+	int range = mx + 1;
+	int freq[range] = {0};	// init freq of all the element with 0.
+	
+	// Count the freq.
+	for(int i = 0; i < n; i++)
+		freq[ar[i]] ++;
+	
+	int op[n];
+	int index = 0;
+	
+	// Filling the output array op
+	for(int i = 0; i < range; i++) {
+		if(freq[i] != 0) {
+			for(int j = 0; j < freq[i]; j ++) {
+				op[index++] = i; 
+			}
+		}
+	}
+	
+	// Copying back into the original array;
+	for(int i = 0; i < n; i++)
+		ar[i] = op[i];
+}
+
+void bettercountSort(vector<int>& arr) 
+{ 
+	// Find the max and min element so that we can define the size of freq array.
+    int max = *max_element(arr.begin(), arr.end()); 
+    int min = *min_element(arr.begin(), arr.end()); 
+    int range = max - min + 1; 
+    
+    // Count the freq.
+    vector<int> count(range), output(arr.size()); 
+    for (int i = 0; i < arr.size(); i++) 
+        count[arr[i] - min]++; 
+  
+  	// find the commulative sum
+    for (int i = 1; i < count.size(); i++) 
+        count[i] += count[i - 1]; 
+  
+  	// Filling the output array
+    for (int i = arr.size() - 1; i >= 0; i--) { 
+        output[count[arr[i] - min] - 1] = arr[i]; 
+        count[arr[i] - min]--; 
+    } 
+  
+  	// Copying back to original array.
+    for (int i = 0; i < arr.size(); i++) 
+        arr[i] = output[i]; 
+}
+
+void start() {
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
+
+    #ifndef ONLINE_JUDGE
+        // file input
+            freopen("input10.txt", "r", stdin);
+        // output file
+            freopen("output.txt", "w",stdout);
+    #endif
+
+ } 
+ 
+
+int main() {
+	
+	start();
+	int n;
+	cin >> n;
+	
+	vector<int> ar(n);
+	for(int i = 0; i < n; i++)	cin >> ar[i];
+	
+	naviecountingSort(ar, n);
+	bettercountSort(ar);
+
+	for(int i = 0; i < n; i++)	cout << ar[i] << " ";
+	return 0;
+}
