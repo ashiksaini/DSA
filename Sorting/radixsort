@@ -2,6 +2,8 @@
  *
  *		- Non Comparision based algorithm.
  *		- Stable algo.
+ *		- The idea of Radix Sort is to do digit by digit sort starting from least significant digit to most significant digit. 
+ *			Radix sort uses counting sort as a subroutine to sort.
  *		- This algo is used for futher excess the range in the counting sort.
  *		
  *			TC : O(nk)		k : mx digit of the element
@@ -72,4 +74,5 @@ int main() {
 	for(int i = 0; i < n; i++)	cout << ar[i] << " ";
 	return 0;
 }
+
 
