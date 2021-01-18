@@ -1,0 +1,83 @@
+/*				HEAP SORT	(18-01-2021)
+ *
+ *		- It uses the idea of the selection sort. 
+ *		- In this algorithm we used the Complete Binary Tree, a array can be represented as the complete binary tree, where if the parent is at ith pos then the left child is at
+ *			2 * i + 1, and the right child at 2 * i + 2.
+ *		- First we create a max heap that is the max element is at the root and childs are less than root.
+ * 		- Take the max element form the root and place at the last index in the array.
+ *		- NOT Stable sorting algo.
+ *
+ *			TC : O(n log n) in all the cases.
+ *			AS : O(1)
+ *
+ *		NOTE : Heap sort is nlogn in all the cases but it cannot preffer as main algo for sorting because the constant use in this algo are very high.
+ */
+ 
+ #include<bits/stdc++.h>
+ #define ll		long long
+
+ using namespace std;
+ using namespace std::chrono;
+
+ void heapify(int v[], int n, int i)
+ {
+ 	int largest = i;
+ 	int l = 2 * i + 1;
+ 	int r = 2 * i + 2;
+ 	
+ 	if(l < n && v[largest] < v[l])	largest = l;
+ 	if(r < n && v[largest] < v[r])	largest = r;
+ 	
+ 	if(largest != i)
+ 	{
+ 		swap(v[i], v[largest]);
+ 		heapify(v, n, largest);
+	}
+ }
+ 
+ void heapSort(int v[], int n)
+ {
+ 	for(int i = (n - 2) / 2; i >= 0; i--)
+		heapify(v, n, i);
+	
+	for(int i = n - 1; i > 0; i--)
+	{
+		swap(v[0], v[i]);
+		heapify(v, i, 0);
+	}
+ }
+ 
+ void start()            
+ {
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
+
+    #ifndef ONLINE_JUDGE
+        // file input
+            freopen("input100000.txt", "r", stdin);
+        // output file
+            freopen("output.txt", "w",stdout);
+    #endif
+
+ } 
+ 
+ int main()
+ {
+ 	start();
+ 	int n;
+ 	cin >> n;
+ 	
+ 	int v[n];
+ 	for(int i = 0; i < n; i++)	cin >> v[i];
+ 	
+ 	auto start = high_resolution_clock::now();
+ 	
+ 	heapSort(v, n);
+ 	
+ 	auto stop = high_resolution_clock::now(); 
+    auto duration = duration_cast<microseconds>(stop - start); 
+    cout << "Time taken by function: "<< duration.count() << " microseconds" << endl;
+    
+    // for(int i = 0; i < n; i++)	cout << v[i] << " ";
+	 
+ 	return 0;
+ }
