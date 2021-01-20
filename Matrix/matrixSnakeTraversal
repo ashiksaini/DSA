@@ -1,0 +1,80 @@
+#include<bits/stdc++.h>
+
+#define ff          first
+#define ss          second
+#define ll          long long
+#define mod         1e9 + 7
+#define ps(x, y)    fixed << setprecision(y) << x
+#define deb(...)    " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] "
+ 
+using namespace std;
+
+void printSnake(vector<vector<int> >& v)
+{
+    for(int i = 0; i < v.size(); i++) {
+        if(i & 1) {
+            // print backward
+            for(int j = v[i].size() - 1; j >= 0; j--) {
+                cout << v[i][j] << " ";
+            }
+        }
+        else {
+            // print foreward
+            for(int j = 0; j < v[i].size(); j++) {
+                cout << v[i][j] << " ";
+            }
+        }
+        cout << "\n";
+    }
+}
+
+void printNormal(vector<vector<int> >& v)
+{
+    for(int i = 0; i < v.size(); i++) {
+        for(int j = 0; j < v[i].size(); j++)
+            cout << v[i][j] << " ";
+        cout << "\n";
+    }
+}
+
+void solve()
+{
+    int n, m, k = 1;
+    cin >> n >> m;
+    vector<vector<int> > v(n);
+    for(int i = 0; i < n; i++)
+        for(int j = 0; j < m; j++)
+            v[i].push_back(k++);
+
+    cout << "****NORMAL TRAVERSAL****\n";  
+    printNormal(v);
+    cout << "\n\n";
+    cout << "****SNAKE TRAVERSAL****\n";
+    printSnake (v);
+}
+
+void start()
+{
+    ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+
+    #ifndef ONLINE_JUDGE
+        // file input
+            freopen("input.txt", "r", stdin);
+        // output file
+            freopen("output.txt", "w",stdout);
+    #endif
+
+}
+
+int main()
+{
+    start();
+
+	int tt = 1;
+	// cin >> tt;
+
+	while(tt--)
+		solve();
+
+    return 0;
+}
