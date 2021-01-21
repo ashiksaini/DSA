@@ -1,0 +1,93 @@
+#include<bits/stdc++.h>
+
+#define ff          first
+#define ss          second
+#define ll          long long
+#define mod         1e9 + 7
+#define ps(x, y)    fixed << setprecision(y) << x
+#define deb(...)    " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] "
+ 
+using namespace std;
+
+void printBoundary(vector<vector<int> >& v)
+{
+    // only it has one row
+    if(v.size() == 1)
+        for(int i = 0; i < v[0].size(); i++)
+            cout << v[0][i] << " ";
+
+    // only it has one col
+    else if(v[0].size() == 1)
+        for(int i = 0; i < v.size(); i++)
+            cout << v[i][0] << " ";
+
+    else 
+    {
+        // first row
+        for(int i = 0; i < v[0].size(); i++)
+            cout << v[0][i] << " ";
+
+        // last column
+        for(int i = 1; i < v[0].size(); i++)
+            cout << v[i][v[0].size() - 1] << " ";
+
+        // last row from right to left
+        for(int i = v[v.size() - 1].size() - 2; i >= 0; i--)
+            cout << v[v.size() - 1][i] << " ";
+
+        // first col. from bottom to top
+        for(int i = v.size() - 2; i > 0; i--)
+            cout << v[i][0] << " ";
+    }   
+}
+
+void printNormal(vector<vector<int> >& v)
+{
+    for(int i = 0; i < v.size(); i++) {
+        for(int j = 0; j < v[i].size(); j++)
+            cout << v[i][j] << " ";
+        cout << "\n";
+    }
+}
+
+void solve()
+{
+    int n, m, k = 1;
+    cin >> n >> m;
+    vector<vector<int> > v(n);
+    for(int i = 0; i < n; i++)
+        for(int j = 0; j < m; j++)
+            v[i].push_back(k++);
+
+    cout << "****NORMAL TRAVERSAL****\n";  
+    printNormal(v);
+    cout << "\n\n";
+    cout << "****Boundary TRAVERSAL****\n";
+    printBoundary (v);
+}
+
+void start()
+{
+    ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+
+    #ifndef ONLINE_JUDGE
+        // file input
+            freopen("input.txt", "r", stdin);
+        // output file
+            freopen("output.txt", "w",stdout);
+    #endif
+
+}
+
+int main()
+{
+    start();
+
+	int tt = 1;
+	// cin >> tt;
+
+	while(tt--)
+		solve();
+
+    return 0;
+}
