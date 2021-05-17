@@ -1,0 +1,51 @@
+/**			(17-05-21) 		ANAGRAM STRING
+  *
+  *		1. Navie : Sort both strings and compare if same true, else false
+  *
+  *		2. Better : Inc. the frequency count for the string1 and dec. the frequency count for string2 
+  *					if the frequency count is > 0, not anagram
+  *					else anagram 
+  */
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+//TC : O(nlogn)
+string navie(string s1, string s2) {
+	sort(s1.begin(), s1.end());
+	sort(s2.begin(), s2.end());
+	
+	return (s1 == s2) ? "Anagram" : "Not Anagram";
+}
+
+//TC : O(n + CHAR)
+//AS : O(CHAR)
+string better(string s1, string s2) {
+	int freq[256];
+	memset(freq, 0, sizeof freq);
+	
+	for(int i = 0; i < s1.size(); i++)
+		freq[s1[i]] ++;
+		
+	for(int i = 0; i < s2.size(); i++)
+		freq[s2[i]] --;
+		
+	for(int i = 0; i < 256; i++) {
+		if(freq[i] > 0) {
+			return "Not Anagram";
+		}
+	}
+	
+	return "Anagram";
+}
+
+
+int main() {
+	string s1, s2;
+	cin >> s1;
+	cin >> s2;
+	
+	cout << navie(s1, s2) << "\n";
+	cout << better(s1, s2) << "\n";
+}
