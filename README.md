@@ -1,5 +1,5 @@
 # DSA
 
 1. String
-2. ispalindrome
-3. isAnagram
+  1.1. ispalindrome
+  1.2. isAnagram
