@@ -5,18 +5,18 @@
   *
   *		=> The Best case for this is when the first letter of the pattern is not in the string at all.
   *			eg.  	txt[] = "AABCCAADDEE";
-  *					pat[] = "FAA";
+  *				pat[] = "FAA";
   *
-  *			TC : O(n),		where 'n' is the length of the text
+  *			TC : O(n),			where 'n' is the length of the text
   *
   *		=> The worst case is when all the letters of text and pattern is same.
-  *			eg.		txt[] = "AAAAAAAAAAAAAAAAAA";
-  *	 				pat[] = "AAAAA";
+  *			eg.	txt[] = "AAAAAAAAAAAAAAAAAA";
+  *	 			pat[] = "AAAAA";
   *	
-  *					txt[] = "AAAAAAAAAAAAAAAAAB";	
+  *				txt[] = "AAAAAAAAAAAAAAAAAB";	
   * 				pat[] = "AAAAB";
   *
-  *			TC : O((n - m + 1) * m), 		where 'n' is the length of the text, 'm' is the length of pattern
+  *			TC : O((n - m + 1) * m), 	where 'n' is the length of the text, 'm' is the length of pattern
   *
   *		=> If the pattern has all distinct letters then we can improve the navie algo. to run in a linear time.
   */
