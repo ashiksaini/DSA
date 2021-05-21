@@ -1,0 +1,92 @@
+/**			(21-05-2021)		NAVIE PATTERN MATCHING ALGORITHM
+  *
+  *		=> Slide the pattern over the text, i.e consider the window of pattern and slide it over text 
+  *			if pattern matching any substring of the text then return found else not found.
+  *
+  *		=> The Best case for this is when the first letter of the pattern is not in the string at all.
+  *			eg.  	txt[] = "AABCCAADDEE";
+  *					pat[] = "FAA";
+  *
+  *			TC : O(n),		where 'n' is the length of the text
+  *
+  *		=> The worst case is when all the letters of text and pattern is same.
+  *			eg.		txt[] = "AAAAAAAAAAAAAAAAAA";
+  *	 				pat[] = "AAAAA";
+  *	
+  *					txt[] = "AAAAAAAAAAAAAAAAAB";	
+  * 				pat[] = "AAAAB";
+  *
+  *			TC : O((n - m + 1) * m), 		where 'n' is the length of the text, 'm' is the length of pattern
+  *
+  *		=> If the pattern has all distinct letters then we can improve the navie algo. to run in a linear time.
+  */
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+// TC : O((n - m + 1) * m)
+// AS : O(1)
+string isFoundNavie(string text, string pattern) {
+	for(int i = 0; i <= (text.size() - pattern.size()); i++) {
+		int j = 0;
+		for(j = 0; j < pattern.size(); j++) {
+			if(text[i + j] != pattern[j]) {
+				break;
+			}
+		}
+		
+		if(j == pattern.size()) {
+			return "Found";
+		}
+	}
+	
+	// short inner loop
+	/**
+		if(pattern == text.substr(i, i + pattern.size())) {
+			return "Found";
+		}
+	*/
+	
+	return "Not Found";
+}
+
+// If pattern has all distinct letter
+// TC : O(n)
+string impNavie(string text, string pattern) {
+	for(int i = 0; i <= (text.size() - pattern.size());) {
+		int j = 0;
+		for(j = 0; j < pattern.size(); j++) {
+			if(text[i + j] != pattern[j]) {
+				break;
+			}
+		}
+		
+		if(j == pattern.size()) {
+			return "Found";
+		}
+		
+		if(j == 0)
+			i ++;
+		else	
+			i = i + j;
+	}
+	
+	return "Not Found";
+}
+
+int main() {
+	string text, pattern;
+	cin >> text >> pattern;
+	
+	if(pattern.size() > text.size()) {
+		cout << -1 << "\n";
+	} else {
+		cout << isFoundNavie(text, pattern) << "\n";
+		
+		// if pattern has distinct letters
+		cout << impNavie(text, pattern) << "\n";
+	}
+	
+	return 0;
+}
