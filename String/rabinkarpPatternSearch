@@ -1,0 +1,90 @@
+/**				(22-05-2021)		RABIN KRAP ALGORITHM
+  *
+  *		=> This algorithm based on hashing. Like the navie algorithm, we slide the pattern over the text's window.
+  *		=> So before sliding we precompute the hash of the pattern and the text's window,
+  *			if, the hash of pattern and the text's window then after we compare the letters.
+  *
+  *		1. Cal. hash for pattern : 		p[0] * d^(n-1) + p[1] * d^(n - 2) + ...... + p[n - 1] * d^(0)
+  *		 . What should be choose for d ...?
+  *		 . As to cover all char we simply take d as 256
+  *		 . Horner's method is used to cal for both hash.
+  *
+  *		2. Cal. hash for the text's window : t[i + 1] = txt[i + m] + d * (t[i] - txt[i] * d (m - 1))
+  *
+  *		TC : O(n + m) as avg case
+  *		TC : O(nm)	as wrost case
+  *		AS : O(1)
+  */
+
+#include <bits/stdc++.h>
+#define ll 	long long int
+
+// it is the base for the char 
+#define d	256
+
+const ll mod = 1e9 + 7;
+
+using namespace std;
+
+string isRabinFound(string text, string pattern) {
+	
+	int N = text.size();
+	int M = pattern.size();
+	ll pattern_hash = 0;
+	ll text_hash = 0; 
+	
+	// cal hash for the text's first window and for the pattern
+	// using horner method
+	for(int i = 0; i < M; i++) {
+		pattern_hash = (d * pattern_hash + pattern[i]) % mod;
+		text_hash = (d * text_hash + text[i]) % mod;
+	}
+	
+	// cal pow(d, M-1)
+	ll h = 1;
+	for(int i = 0; i < M - 1; i++) {
+		h = (h * d) % mod;
+	}
+	
+	cout << h <<"\n";
+	
+	// checking
+	for(int i = 0; i < N - M + 1; i++) {
+		if(pattern_hash == text_hash) {
+			int j = 0;
+			for(j = 0; j < M; j++) {
+				if(pattern[j] != text[i + j]) {
+					break;
+				}
+			}
+			
+			if(j == M) {
+				return "Found";
+			}
+		}
+		
+		if(i < N - M) {
+			text_hash = (text_hash - text[i] * h) % mod;
+			
+			if(text_hash < 0) {
+				text_hash = text_hash + mod;
+			}
+		}
+	}
+	
+	return "Not Found";
+}
+
+int main(int argc, char const **argv) {
+	
+	//input the text and the pattern to be search.
+	string text, pattern;
+	cin >> text >> pattern;
+	
+	if(pattern.size() > text.size()) {
+		cout << -1 << "\n";
+	} else {
+		cout << isRabinFound(text, pattern) << "\n";
+	}
+	return 0;
+}
