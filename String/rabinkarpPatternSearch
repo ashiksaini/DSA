@@ -1,3 +1,4 @@
+
 /**				(22-05-2021)		RABIN KRAP ALGORITHM
   *
   *		=> This algorithm based on hashing. Like the navie algorithm, we slide the pattern over the text's window.
@@ -64,7 +65,7 @@ string isRabinFound(string text, string pattern) {
 		}
 		
 		if(i < N - M) {
-			text_hash = (text_hash - text[i] * h) % mod;
+			text_hash = (d * (text_hash - text[i] * h) + text[i + M]) % mod;
 			
 			if(text_hash < 0) {
 				text_hash = text_hash + mod;
