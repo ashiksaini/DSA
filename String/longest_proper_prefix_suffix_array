@@ -1,0 +1,75 @@
+/**			(25-05-2021)	CONSTRUCT LONGEST PROPER PREFIX SUFFIX ARRAY
+  */
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int constructLps(string s, int n) {
+	for (int len = n - 1; len > 0; len --) {
+		bool flag = true;
+		for(int i = 0; i < len; i++) {
+			if(s[i] != s[n - len + i]) {
+				flag = false;
+			}
+		}
+		
+		if(flag) {
+			return len;
+		}
+	}
+	
+	return 0;
+}
+
+void filllps(string s, int *lps) {
+	for(int i = 0; i < s.size(); i++) {
+		lps[i] = constructLps(s, i + 1);
+	}
+}
+
+void betterversionfillLps(string s, int *lps1) {
+	lps1[0] = 0;
+	int len = 0;
+	for (int i = 1; i < s.size();) {
+		if(s[i] == s[len]) {
+			lps1[i] = len + 1;
+			len ++;
+			i++;
+		}
+		else {
+			if(len == 0) {
+				lps1[i] = 0;
+				i++;
+			}
+			else {
+				len = lps1[len - 1];
+			}
+		}
+	}
+}
+
+int main() {
+	
+	string s;
+	cin >> s;
+	
+	int lps[s.size()];
+	int lps1[s.size()] = {0};
+	
+	filllps(s, lps);
+	
+	for(int i = 0; i < s.size(); i++) {
+		cout << lps[i] << " ";
+	}
+	
+	betterversionfillLps(s, lps1);
+	
+	cout << "\n";
+	for(int i = 0; i < s.size(); i++) {
+		cout << lps1[i] << " ";
+	}
+	
+	
+	return 0;
+}
