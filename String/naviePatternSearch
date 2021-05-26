@@ -79,6 +79,9 @@ int main() {
 	string text, pattern;
 	cin >> text >> pattern;
 	
+	transform(text.begin(), text.end(), text.begin(), :: tolower);
+	transform(pattern.begin(), pattern.end(), pattern.begin(), :: tolower);
+	
 	if(pattern.size() > text.size()) {
 		cout << -1 << "\n";
 	} else {
