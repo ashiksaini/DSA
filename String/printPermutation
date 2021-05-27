@@ -1,0 +1,47 @@
+/**			(27-05-2021)	PERMUTATION OF STRING
+  *
+  *			=> we can fix the first letter and swap the other letters 
+  *
+  *			TC : O(n * n!)
+  *			AS : O(1)
+  */
+
+#include <bits/stdc++.h>
+
+using namespace std;
+int cnt = 0;
+
+void printPermutation(string s, int l, int r) {
+	
+	if(l == r) {
+		cout << s << "\n";
+		cnt ++;
+	}
+	else {
+		for(int i = l; i <= r; i++) {
+			
+			// swaping
+			swap(s[l], s[i]);
+			
+			// permutate to next
+			printPermutation(s, l + 1, r);
+			
+			// backtrack
+			swap(s[l], s[i]);
+		}
+	}
+}
+
+int main() {
+	
+	cnt = 0;
+	string s;
+	cin >> s;
+	
+	cout << "\nAll the permuations are of string : " << s << "\n";
+	printPermutation(s, 0, s.size() - 1);
+	
+	
+	cout << "\nThe Count of all the permuatations are : " << cnt << "\n";
+	return 0;
+}
