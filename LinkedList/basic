@@ -1,0 +1,182 @@
+/**			02-06-2021		LINKED LIST 
+  */
+
+#include <bits/stdc++.h>	
+#include <windows.h>
+
+using namespace std;
+
+struct Node {
+	int data;
+	Node *next;
+	
+	Node (int x) {
+		data = x;
+		next = NULL;
+	}
+};
+
+Node *head;
+Node *last;
+	
+// Insert at the beginning of the list 
+// TC : O(1)
+void insertbegin() {
+	
+	int val;
+	cout << "\n Enter Data : ";
+	cin >> val;
+	
+	Node *temp = new Node(val);
+	
+	// if the list is empty
+	if(head == NULL) {
+		head = temp;
+		last = temp;
+		goto l1;
+	}
+	
+	temp->next = head;
+	head = temp;	
+	
+	l1 : 	cout << " Node Inserted";
+	Sleep(500);
+}
+
+// Insert at the end of the list 
+// TC : O(1)
+void insertend() {
+	
+	int val;
+	cout << "\n Enter Data : ";
+	cin >> val;
+	
+	Node *temp = new Node(val);
+	
+	//if the list is empty
+	if(head == NULL) {
+		head = temp;
+		last = temp;
+		goto l1;
+	}
+	
+	last->next = temp;
+	last = temp;
+	
+	l1 : 	cout << " Node Inserted";
+	Sleep(500);
+}
+
+void deletebegin() {
+	
+	if(head == NULL) {
+		cout << "List is Empty";
+		return;
+	}
+	
+	head = head->next;
+	cout << " Node Deleted";
+	Sleep(500);
+}
+
+// list display 
+void display() {
+	
+	if(head == NULL) {
+		cout << "List is Empty";
+		return;
+	}
+	
+	Node *	curr = head;
+	while(curr != NULL) {
+		if(curr == last) 
+			cout << curr->data;
+		else
+			cout << curr->data << " --> ";
+			
+		curr = curr->next;
+	}
+
+	Sleep(3000);
+}
+
+
+int main() {
+	
+	while(1) {
+	
+		mainmenu :
+		system("cls");
+		cout << "**** Menu **** \n";
+		cout << "\n1. Insert a node";
+		cout << "\n2. Delete a node";
+		cout << "\n3. Display List";
+		cout << "\n4. Exit";
+		
+		int choice;
+		cout << "\n\n	Enter your choice : ";
+		cin >> choice;
+		
+		switch(choice) {
+			case 1 : 
+					 while(1) {
+						 system("cls");
+						 cout << "**** Insert Menu ****\n";
+						 cout << "\n1. Insertion at beginning";
+						 cout << "\n2. Insertion at end";
+						 cout << "\n3. Insertion at your choice";
+						 cout << "\n4. Goto Main Menu";
+
+						 
+						 int inchoice;
+						 cout << "\n\n	Enter your choice : ";
+						 cin >> inchoice;
+						 
+						 switch(inchoice) {
+							case 1 : insertbegin();		break;
+							case 2 : insertend();		break;
+	//						case 3 : insertchoice();	break;
+							case 4 : goto mainmenu;
+							default : cout << "\n\n\t\t\tInvalid Choice";
+						 }
+					}
+					
+					break;
+					 
+			case 2 : 
+					 while(1) {
+				 		 system("cls");
+						 cout << "**** Delete Menu ****\n";
+						 cout << "\n1. Deletion from beginning";
+						 cout << "\n2. Deletion from end";
+						 cout << "\n3. Deletion at your choice";
+						 cout << "\n4. Goto Main Menu";
+
+						 
+						 int dechoice;
+					 	 cout << "\n\n	Enter your choice : ";
+						 cin >> dechoice;
+						 
+						 switch(dechoice) {
+						 	case 1 : deletebegin();		break;
+	//					 	case 2 : deleteend();		break;
+	//					 	case 3 : deletechoice();	break;
+							case 4 : goto mainmenu;
+						 	default : cout << "\n\n\t\t\tInvalid Choice";
+						}
+					}
+					
+					break;
+				
+			case 3 : system("cls");
+					 display();
+					 break;
+					 
+			case 4 : exit(0);
+					
+			default : cout << "\n\n\t\t\tInvalid Choice";			
+		}
+	}
+
+	return 0;
+}
