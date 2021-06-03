@@ -67,6 +67,46 @@ void insertend() {
 	Sleep(500);
 }
 
+// insert at your choice
+// TC : O(pos - 2)
+void insertchoice() {
+	
+	int pos;
+	cout << "\n Enter position where you want to insert : ";
+	cin >> pos;
+	
+	pos -= 2;
+	if(pos < 0) {
+		insertbegin();
+		return;
+	}
+	
+	int data;
+	cout << "\n Enter data : ";
+	cin >> data;	
+	
+	Node* temp = new Node(data);
+	
+	Node* curr = head;
+	while(pos != 0 && curr != NULL) {
+		curr = curr->next;
+		pos --;
+	}
+	
+	if(curr == NULL) {
+		cout << "List limit exceeded";
+		return;
+	}
+	
+	temp->next = curr->next;
+	curr->next = temp;
+	
+	cout << " Node Inserted";
+	Sleep(500);
+} 
+
+// deletion at the beginning
+// TC : O(1)
 void deletebegin() {
 	
 	if(head == NULL) {
@@ -79,6 +119,72 @@ void deletebegin() {
 	Sleep(500);
 }
 
+// deletion at the end
+// TC : O(n)
+void deleteend() {
+	
+	if(head == NULL) {
+		cout << "List is Empty";
+		return;
+	}
+	
+	if(head == last) {
+		delete (head);
+		delete (last);
+		cout << " Node Deleted";
+		return;
+	}
+	
+	Node* curr = head;
+	while(curr->next != last) {
+		curr = curr->next;
+	}
+	
+	delete last;
+	last = curr;
+	last->next = NULL;
+	
+	cout << " Node Deleted";
+	Sleep(500);	
+}
+
+// delete from ypur choice
+// TC : O(pos - 2)
+
+void deletechoice() {
+	
+	int ele;
+	cout << "\n Enter the element you want to delete : ";
+	cin >> ele;
+	
+	Node* curr = head;
+	Node* prev = NULL;
+	while(curr != NULL) {
+		if(curr->data == ele) {
+			break;
+		}
+		prev = curr;
+		curr = curr->next;
+	}
+	
+	if(curr == last) {
+		prev->next = curr->next;
+		last = prev;	
+		delete curr;
+		goto l;
+	}
+	
+	prev->next = curr->next;
+	delete curr;
+	
+	l : cout << " Node Deleted";
+	Sleep(500);	
+}
+
+int search() {
+	return -1;
+}
+
 // list display 
 void display() {
 	
@@ -87,7 +193,7 @@ void display() {
 		return;
 	}
 	
-	Node *	curr = head;
+	Node* curr = head;
 	while(curr != NULL) {
 		if(curr == last) 
 			cout << curr->data;
@@ -111,6 +217,7 @@ int main() {
 		cout << "\n1. Insert a node";
 		cout << "\n2. Delete a node";
 		cout << "\n3. Display List";
+		cout << "\n4. Search";
 		cout << "\n4. Exit";
 		
 		int choice;
@@ -135,7 +242,7 @@ int main() {
 						 switch(inchoice) {
 							case 1 : insertbegin();		break;
 							case 2 : insertend();		break;
-	//						case 3 : insertchoice();	break;
+							case 3 : insertchoice();	break;
 							case 4 : goto mainmenu;
 							default : cout << "\n\n\t\t\tInvalid Choice";
 						 }
@@ -149,7 +256,7 @@ int main() {
 						 cout << "**** Delete Menu ****\n";
 						 cout << "\n1. Deletion from beginning";
 						 cout << "\n2. Deletion from end";
-						 cout << "\n3. Deletion at your choice";
+						 cout << "\n3. Delete Element";
 						 cout << "\n4. Goto Main Menu";
 
 						 
@@ -159,8 +266,8 @@ int main() {
 						 
 						 switch(dechoice) {
 						 	case 1 : deletebegin();		break;
-	//					 	case 2 : deleteend();		break;
-	//					 	case 3 : deletechoice();	break;
+						 	case 2 : deleteend();		break;
+						 	case 3 : deletechoice();	break;
 							case 4 : goto mainmenu;
 						 	default : cout << "\n\n\t\t\tInvalid Choice";
 						}
@@ -172,8 +279,17 @@ int main() {
 					 display();
 					 break;
 					 
-			case 4 : exit(0);
-					
+			case 4 : int k = search();
+					 if(k == -1) {
+					 	cout << "\n Element not found";
+					 }
+					 else {
+					 	cout << "\n Element found at .." << k;
+					 }
+					 break;
+			
+			case 5 : exit(0);
+			
 			default : cout << "\n\n\t\t\tInvalid Choice";			
 		}
 	}
