@@ -1,0 +1,38 @@
+2. Add Two Numbers
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode* ans = new ListNode(0);
+        ListNode* first = l1;
+        ListNode* second = l2;
+        ListNode* last = ans;
+        int carry = 0;
+        
+        while(first || second || carry) {
+            int x = (first) ? first->val : 0;
+            int y = (second) ? second->val : 0;
+            
+            int s = x + y + carry;
+            carry = s / 10;
+            
+            last->next = new ListNode(s % 10);
+            last = last->next;
+            
+            first = (first) ? first->next : NULL;
+            second = (second) ? second->next : NULL;
+        }
+        
+        return ans->next;
+    }
+};
