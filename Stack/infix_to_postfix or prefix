@@ -1,0 +1,91 @@
+/**
+  */
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+bool isAlpha(char x) {
+	return (x >= 'a' && x <= 'z' || x >= 'A' && x <= 'z');
+}
+
+int precedence(char x) {
+	if(x == '^')					return 3;
+	else if(x == '*' || x == '/')	return 2;
+	else if(x == '+' || x == '-')	return 1;
+	else 							return -1;
+}
+
+string infix_to_postfix(string infix) {
+	
+	string postfix = "";
+	
+	stack<char> st;
+	
+	for(int i = 0; i < infix.size(); i++) {
+		if(isAlpha(infix[i])) {
+			postfix += infix[i];
+		}
+		
+		else if(infix[i] == '(') {
+			st.push(infix[i]);
+		}
+		
+		else if(infix[i] == ')') {
+			while(!st.empty() && st.top() != '(') {
+				char top = st.top();
+				st.pop();
+				
+				postfix += top;
+			}
+			
+			if(st.top() == '(') {
+				st.pop();
+			}
+		}
+		
+		else {
+			while(!st.empty() && precedence(st.top()) >= precedence(infix[i])) {
+				char top = st.top();
+				st.pop();
+				
+				postfix += top;
+			}
+			
+			st.push(infix[i]);
+		}
+	}
+	
+	while(!st.empty()) {
+		char top = st.top();
+		st.pop();
+				
+		postfix += top;
+	}
+	
+	return postfix;
+}
+
+string infix_to_prefix(string infix) {
+	string prefix = "";
+	
+	reverse(infix.begin(), infix.end());
+	
+	prefix = infix_to_postfix(infix);
+	
+	reverse(prefix.begin(), prefix.end());
+	
+	return prefix;
+}
+
+int main() {
+	string infix;
+	cin >> infix;
+	
+	string postfix = infix_to_postfix(infix);
+	string prefix = infix_to_prefix(infix);
+	cout << postfix << "\n";
+	cout << prefix << "\n";
+	
+	return 0;
+}
