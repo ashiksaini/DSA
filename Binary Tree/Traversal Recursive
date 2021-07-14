@@ -1,0 +1,75 @@
+/**		 	BINARY TREE			(14-07-2021)
+ *	
+ *		1. Inorder traversal   : Left, Root, Right
+ *		2. Preoder traversal   : Root, Left, Right
+ *		3. Postorder traversal : Left, Right, Root
+ */
+ 
+#include <bits/stdc++.h>
+
+using namespace std;
+
+struct Node {
+	int data;
+	Node *left, *right;
+	
+	Node(int x) {
+		data = x;
+		left = right = NULL;
+	}
+};
+
+void inorderRecursive(Node *root) {
+	if(root != NULL) {
+		inorderRecursive(root->left);
+		cout << root->data << " ";
+		inorderRecursive(root->right);
+	}
+}
+
+void preorderRecursive(Node *root) {
+	if(root != NULL) {
+		cout << root->data << " ";
+		preorderRecursive(root->left);
+		preorderRecursive(root->right);
+	}
+}
+
+void postorderRecursive(Node *root) {
+	if(root != NULL) {
+		postorderRecursive(root->left);
+		postorderRecursive(root->right);
+		cout << root->data << " ";
+	}
+}
+
+int main() {
+	
+	// tree creation
+	Node *root = new Node(10);
+	root->left = new Node(20);
+	root->right = new Node(30);
+	root->left->left = new Node(40);
+	root->left->right = new Node(50);
+	root->left->right->left = new Node(80);
+	root->right->right = new Node(60);
+	root->right->right->left = new Node(70);
+	
+	
+	// Inorder Recursive
+	cout << "Inorder: ";
+	inorderRecursive(root);
+	cout << "\n";
+	
+	// Preorder Recursive
+	cout << "Preorder: "; 
+	preorderRecursive(root);
+	cout << "\n";
+	
+	// Postorder Recursive
+	cout << "Postorder: ";
+	postorderRecursive(root);
+	cout << "\n";
+	
+	return 0;
+}
