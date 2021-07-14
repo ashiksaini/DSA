@@ -1,0 +1,28 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+struct Node {
+	int data;
+	Node *left, *right;
+	
+	Node(int x) {
+		data = x;
+		left = right = NULL;
+	}
+};
+
+int main() {
+	
+	// tree creation
+	Node *root = new Node(10);
+	root->left = new Node(20);
+	root->right = new Node(30);
+	root->left->left = new Node(40);
+	root->left->right = new Node(50);
+	root->left->right->left = new Node(80);
+	root->right->right = new Node(60);
+	root->right->right->left = new Node(70);
+
+	return 0;
+}
