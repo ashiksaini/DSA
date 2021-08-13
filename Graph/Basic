@@ -1,0 +1,154 @@
+#include <bits/stdc++.h>
+ 
+#define ff              first
+#define ss              second
+#define ll              long long
+#define all(x)          x.begin(), x.end()
+#define ps(x, y)        fixed << setprecision(y) << x
+#define deb(...)        " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] "
+#define debug(...)      fprintf(stderr, __VA_ARGS__), fflush(stderr)
+ 
+using namespace std;
+const ll mod = 1e9 + 7;
+unordered_map<int, unordered_set<int>> adj;
+
+// printing the graph
+void print() {
+    for(auto x : adj) {
+        cout << x.ff << " ----> ";
+        for(auto ele : x.ss) {
+            cout << ele << " ";
+        }
+        cout << "\n";
+    }
+}
+
+// checking a edge is present or not
+bool isFound() {
+    int q;
+    cin >> q;
+
+    while(q--) {
+        int u, v;
+        cin >> u >> v;
+
+        bool found = false;
+        if(adj[u].find(v) != adj[u].end())
+            found = true;
+
+        cout << (found ? "YES" : "NO") << "\n";
+    }
+}
+
+/*
+ * dfs
+ * TC : O(V + E);
+ */
+void dfs(bool *visited, int src) {
+    visited[src] = true;
+    cout << src << " ";
+    
+    for(auto x : adj[src]) {
+        if(!visited[x]) {
+            dfs(visited, x);
+        }
+    }
+}
+
+void dfsHelper(int nodes) {
+    int countNumberOfConnectedComp = 0;
+    bool visited[nodes] = {false};
+
+    for(auto x : adj) {
+        if(!visited[x.ff]) {
+            dfs(visited, x.ff);
+            countNumberOfConnectedComp++;
+        }
+    }
+
+    cout << "\nNumber of Connected Component : " << countNumberOfConnectedComp;
+}
+
+/*
+ * bfs
+ * TC : O(V + E);
+ */
+
+void bfs(bool *visited, int src) {
+    queue<int> q;
+
+    visited[src] = true;
+    q.push(src);
+
+    while(!q.empty()) {
+        int val = q.front();
+        q.pop();
+
+        cout << val << " ";
+        for(auto x : adj[val]) {
+            if(!visited[x]) {
+                visited[x] = true;
+                q.push(x);
+            }
+        }
+    }
+}
+
+void bfsHelper(int nodes) {
+    int countNumberOfConnectedComp = 0;
+    bool visited[nodes] = {false};
+   
+    for(auto x : adj) {
+        if(!visited[x.ff]) {
+            bfs(visited, x.ff);
+            countNumberOfConnectedComp++;
+        }
+    }
+
+    cout << "\nNumber of Connected Component : " << countNumberOfConnectedComp;
+}
+
+void solve() {
+    adj.clear();
+    int nodes, edges;
+    cin >> nodes >> edges;
+
+    for (int i = 0; i < edges; i++) {
+        int u, v;
+        cin >> u >> v;
+
+        adj[u].insert(v);
+        adj[v].insert(u);
+    }
+
+    print();
+    cout << "\nDFS : ";
+    dfsHelper(nodes);
+
+    cout << "\n\nBFS : ";
+    bfsHelper(nodes);
+}
+
+void IO() {
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
+ 
+    #ifndef ONLINE_JUDGE
+        // file input
+            freopen("input.txt", "r", stdin);
+        // output file
+            freopen("output.txt", "w",stdout);
+    #endif
+}
+ 
+int main() {
+    IO();
+    
+    int tt = 1;
+    // cin >> tt;
+ 
+    while(tt--) {
+        solve();
+    }
+ 
+    return 0;
+}
