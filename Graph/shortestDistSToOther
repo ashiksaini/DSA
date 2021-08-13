@@ -1,0 +1,105 @@
+/*
+ * Given a Src find the shortest path to the all other nodes.
+ */
+#include <bits/stdc++.h>
+ 
+#define ff              first
+#define ss              second
+#define ll              long long
+#define all(x)          x.begin(), x.end()
+#define ps(x, y)        fixed << setprecision(y) << x
+#define deb(...)        " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] "
+#define debug(...)      fprintf(stderr, __VA_ARGS__), fflush(stderr)
+ 
+using namespace std;
+const ll mod = 1e9 + 7;
+unordered_map<int, unordered_set<int>> adj;
+
+// printing the graph
+void print() {
+    for(auto x : adj) {
+        cout << x.ff << " ----> ";
+        for(auto ele : x.ss) {
+            cout << ele << " ";
+        }
+        cout << "\n";
+    }
+}
+
+void printdistance(int distance[], int n) {
+    cout << "\nSrc : 1\n";
+    for (int i = 1; i < n; i++) {
+        cout << distance[i] << " ";
+    }
+}
+
+void bfs(bool *visited, int *distance, int src) {
+    queue<int> q;
+
+    visited[src] = true;
+    q.push(src);
+
+    while(!q.empty()) {
+        int u = q.front();
+        q.pop();
+
+        for(auto v : adj[u]) {
+            if(!visited[v]) {
+                distance[v] = distance[u] + 1;
+                visited[v] = true;
+                q.push(v);
+            }
+        }
+    }
+}
+
+void bfsHelper(int nodes) {
+    bool visited[nodes + 1] = {false};
+    int distance[nodes + 1] = {0};
+
+    bfs(visited, distance, 1);
+
+    cout << "\nShortest distance Src to all the other nodes :-";
+    printdistance(distance, nodes + 1);
+}
+
+void solve() {
+    adj.clear();
+    int nodes, edges;
+    cin >> nodes >> edges;
+
+    for (int i = 0; i < edges; i++) {
+        int u, v;
+        cin >> u >> v;
+
+        adj[u].insert(v);
+        adj[v].insert(u);
+    }
+
+    print();
+    bfsHelper(nodes);
+}
+
+void IO() {
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
+ 
+    #ifndef ONLINE_JUDGE
+        // file input
+            freopen("input.txt", "r", stdin);
+        // output file
+            freopen("output.txt", "w",stdout);
+    #endif
+}
+ 
+int main() {
+    IO();
+    
+    int tt = 1;
+    // cin >> tt;
+ 
+    while(tt--) {
+        solve();
+    }
+ 
+    return 0;
+}
