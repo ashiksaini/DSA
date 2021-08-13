@@ -1,0 +1,100 @@
+/*
+ * Topological Sort (Kahn's Algorithm), in lexographical smallest order.
+ */
+#include <bits/stdc++.h>
+ 
+#define ff              first
+#define ss              second
+#define ll              long long
+#define all(x)          x.begin(), x.end()
+#define ps(x, y)        fixed << setprecision(y) << x
+#define deb(...)        " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] "
+#define debug(...)      fprintf(stderr, __VA_ARGS__), fflush(stderr)
+ 
+using namespace std;
+const ll mod = 1e9 + 7;
+unordered_map<int, unordered_set<int>> adj;
+vector<int> indegree;
+
+// printing the graph
+void print() {
+    for(auto x : adj) {
+        cout << x.ff << " ----> ";
+        for(auto ele : x.ss) {
+            cout << ele << " ";
+        }
+        cout << "\n";
+    }
+}
+
+void kahn(int nodes) {
+    priority_queue<int, vector<int>, greater<int>> q;
+    for (int i = 1; i < nodes; i++) {
+        if(indegree[i] == 0) {
+            q.push(i);
+        }
+    }
+    
+    vector<int> toposort;
+    while(!q.empty()) {
+        int u = q.top();
+        toposort.push_back(u);
+        q.pop();
+
+        for(auto v : adj[u]) {
+            indegree[v]--;
+            if(indegree[v] == 0) {
+                q.push(v);
+            }
+        }
+    }
+
+    for(auto x : toposort) {
+        cout << x << " ";
+    }
+}
+
+void solve() {
+    adj.clear();
+    int nodes, edges;
+    cin >> nodes >> edges;
+
+    indegree.resize(nodes + 1);
+    
+    for (int i = 0; i < edges; i++) {
+        int u, v;
+        cin >> u >> v;
+
+        adj[u].insert(v);
+        indegree[v]++;
+    }
+
+    print();
+
+    cout << "\nTopological Sort : ";
+    kahn(nodes + 1);
+}
+
+void IO() {
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
+ 
+    #ifndef ONLINE_JUDGE
+        // file input
+            freopen("input.txt", "r", stdin);
+        // output file
+            freopen("output.txt", "w",stdout);
+    #endif
+}
+ 
+int main() {
+    IO();
+    
+    int tt = 1;
+    // cin >> tt;
+ 
+    while(tt--) {
+        solve();
+    }
+ 
+    return 0;
+}
