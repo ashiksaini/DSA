@@ -1,0 +1,105 @@
+/*
+ * Topological Sort using dfs
+ */
+#include <bits/stdc++.h>
+ 
+#define ff              first
+#define ss              second
+#define ll              long long
+#define all(x)          x.begin(), x.end()
+#define ps(x, y)        fixed << setprecision(y) << x
+#define deb(...)        " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] "
+#define debug(...)      fprintf(stderr, __VA_ARGS__), fflush(stderr)
+ 
+using namespace std;
+const ll mod = 1e9 + 7;
+vector<int> adj[10001];
+
+// printing the graph
+void print(int nodes) {
+    for (int i = 1; i < nodes; i++) {
+        cout << i << " ----> ";
+        for(auto ele : adj[i]) {
+            cout << ele << " ";
+        }
+        cout << "\n";
+    }
+}
+
+/*
+ *  Using DFS
+ */
+
+void dfs(bool *visited, stack<int> &s, int src) {
+    visited[src] = true;
+
+    for(auto v : adj[src]) {
+        if(!visited[v]) {
+            dfs(visited, s, v);
+        }
+    }
+
+    s.push(src);
+}
+
+void dfsHelper(int nodes) {
+    bool visited[nodes] = {false};
+
+    stack<int> s;
+    for (int i = 1; i < nodes; i++) {
+        if(!visited[i]) {
+            dfs(visited, s, i);
+        }
+    }
+
+    // cout << deb(s.size());
+    while(!s.empty()) {
+        int val = s.top();
+        s.pop();
+
+        cout << val << " ";
+    }
+}
+
+void solve() {
+    adj->clear();
+
+    int nodes, edges;
+    cin >> nodes >> edges;
+
+    for (int i = 0; i < edges; i++) {
+        int u, v;
+        cin >> u >> v;
+
+        adj[u].push_back(v);
+    }
+
+    // print(nodes + 1);
+
+    cout << "\nTopological Sort : ";
+    dfsHelper(nodes + 1);
+}
+
+void IO() {
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
+ 
+    #ifndef ONLINE_JUDGE
+        // file input
+            freopen("input.txt", "r", stdin);
+        // output file
+            freopen("output.txt", "w",stdout);
+    #endif
+}
+ 
+int main() {
+    IO();
+    
+    int tt = 1;
+    // cin >> tt;
+ 
+    while(tt--) {
+        solve();
+    }
+ 
+    return 0;
+}
