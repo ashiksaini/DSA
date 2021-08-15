@@ -1,0 +1,173 @@
+/*
+ * Prim's algo
+ */
+#include <bits/stdc++.h>
+ 
+#define ff              first
+#define ss              second
+#define ll              long long
+#define all(x)          x.begin(), x.end()
+#define ps(x, y)        fixed << setprecision(y) << x
+#define deb(...)        " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] "
+ 
+using namespace std;
+const ll mod = 1e9 + 7;
+vector<pair<int, int>> adj[1001];
+
+// printing graph
+void print(int nodes) {
+    for (int i = 1; i <= nodes; i++) {
+        cout << i << " ---: ";
+        for(auto x : adj[i]) {
+            cout << " [" << x.ff << "," << x.ss << "]";
+        }
+        cout << "\n";
+    }
+}
+
+void debug(bool mst[], int key[], int parent[], int nodes) {
+    cout << "\nMST : ";
+    for (int i = 1; i <= nodes; i++) {
+        cout << mst[i] << " ";
+    }
+
+    cout << "\nKey : ";
+    for (int i = 1; i <= nodes; i++) {
+        cout << key[i] << " ";
+    }
+        
+    cout << "\nParent : ";
+    for (int i = 1; i <= nodes; i++) {
+        cout << parent[i] << " ";
+    }
+}
+
+/*
+ * Prims algo
+ */
+
+void prims(int nodes) {
+    vector<int> key(nodes + 1, INT32_MAX);
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+    vector<int> parent(nodes + 1, -1);
+    vector<bool> Mst(nodes + 1, false);
+    int sum = 0;
+
+    pq.push({0, 1});
+    key[1] = 0;
+    parent[1] = -1;
+
+    for (int cnt = 0; cnt < nodes; cnt ++) {
+        int u = pq.top().ss;
+        pq.pop();
+
+        Mst[u] = true;
+        sum += key[u];
+
+        for(auto x : adj[u]) {
+            int v = x.ff;
+            int wt = x.ss;
+
+            if(!Mst[v] && key[v] > wt) {
+                key[v] = wt;
+                pq.push({key[v], v});
+                parent[v] = u;
+            }
+        }
+    }
+
+    cout << sum << "\n";
+}
+
+/*
+ * Prims algo O(V^2) approach
+ */
+void primsit(int nodes) {
+    int parent[nodes + 1];
+    int key[nodes + 1];
+    bool mst[nodes + 1];
+    int sum = 0;
+
+    for (int i = 0; i <= nodes; i++) {
+        parent[i] = -1, mst[i] = false, key[i] = INT32_MAX;
+    }
+
+    parent[0] = parent[1] = -1;
+    key[0] = key[1] = 0;
+
+    for (int cnt = 0; cnt < nodes; cnt ++) {
+        int mini = INT32_MAX, u;
+
+        //finding minimun in the key
+        for (int v = 1; v <= nodes; v++) {
+            if(!mst[v] && key[v] < mini) {
+                mini = key[v];
+                u = v;
+            }
+        }
+
+        // add it to the MST
+        mst[u] = true;
+        sum += key[u];
+
+        // traverse its neighbours find minimum.
+        for(auto x : adj[u]) {
+            int v = x.ff;
+            int wt = x.ss;
+
+            if(!mst[v] && key[v] > wt) {
+                key[v] = wt;
+                parent[v] = u;
+            }
+        }
+    }
+
+    for (int i = 1; i <= nodes; i++) {
+        cout << parent[i] << " ----> " << i << "\n";
+    }
+
+    cout << deb(sum) << "\n";
+
+    // debug(mst, key, parent, nodes);
+}
+
+void solve() {
+    adj->clear();
+    int nodes, edges;
+    cin >> nodes >> edges;
+
+    for (int i = 0; i < edges; i++) {
+        int u, v, w;
+        cin >> u >> v >> w;
+
+        adj[u].push_back({v, w});
+        adj[v].push_back({u, w});
+    }
+
+    // print(nodes);
+    prims(nodes);
+}
+
+void IO() {
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
+ 
+    #ifndef ONLINE_JUDGE
+        // file input
+            freopen("input.txt", "r", stdin);
+        // output file
+            freopen("output.txt", "w",stdout);
+    #endif
+}
+ 
+int main() {
+    IO();
+    
+    int tt = 1;
+    // cin >> tt;
+ 
+    while(tt--) {
+        solve();
+    }
+ 
+    return 0;
+}
