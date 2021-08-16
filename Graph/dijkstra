@@ -1,0 +1,112 @@
+/**
+  * 
+  */
+#include<bits/stdc++.h>
+ 
+#define ff          first
+#define ss          second
+#define ll          long long
+#define mod         ll 1e9 + 7
+#define ps(x, y)    fixed << setprecision(y) << x
+#define deb(...)    " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] "
+ 
+using namespace std;
+const int MAX = 100000;
+unordered_map<int, vector<pair<int, int>>> adj;
+
+void printing() {
+    for(auto u : adj) {
+        cout << u.ff << " --: ";
+        for(auto v : u.ss) {
+            cout << "[" << v.ff << "," << v.ss << "]";
+        }
+        cout << "\n";
+    }
+}
+
+void dijkstra(int nodes, int src) {
+    int disti;
+    cin >> disti;
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+    vector<bool> visited(nodes + 1, false);
+    vector<int> distance(nodes + 1, INT32_MAX);
+
+    distance[src] = 0;
+    pq.push({0, src});
+
+    while(!pq.empty()) {
+        // finalize the vertex
+        int u = pq.top().ss;
+        pq.pop();
+
+        // mark it as visited
+        visited[u] = true;
+
+        // traverse its adjcent and mark distance
+        for(auto x : adj[u]) {
+            int v = x.ff;
+            int w = x.ss;
+
+            // already not visited and current distance is greater than main + current weight
+            if(!visited[v] && distance[v] > distance[u] + w) {
+                distance[v] = distance[u] + w;
+                pq.push({distance[v], v});
+            }
+        }
+
+        // for (int i = 0; i <= nodes; i++) {
+        //     cout << distance[i] << " ";
+        // }
+
+        // cout << "\n";
+    }
+
+    if(distance[disti] == INT32_MAX)
+        cout << "NO\n";
+    else
+        cout << distance[disti] << "\n";
+}
+
+void solve() {
+    adj.clear();
+    int nodes, edges;
+    cin >> nodes >> edges;
+
+    while(edges--) {
+        int u, v, w;
+        cin >> u >> v >> w;
+
+        adj[u].push_back({v, w});
+        // adj[v].push_back({u, w});
+    }
+
+    // printing();
+    int src;
+    cin >> src;
+    dijkstra(nodes, src);
+}
+ 
+void start() {
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
+ 
+    #ifndef ONLINE_JUDGE
+        // file input
+            freopen("input.txt", "r", stdin);
+        // output file
+            freopen("output.txt", "w",stdout);
+    #endif
+}
+ 
+int main() {
+    start();
+
+    int tt = 1;
+    cin >> tt;
+ 
+    while(tt--)
+    {
+        solve();
+    }
+ 
+    return 0;
+}
