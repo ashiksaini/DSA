@@ -1,5 +1,5 @@
 /**
-  * 
+  * Dijsktra's Single Source Shortest path
   */
 #include<bits/stdc++.h>
  
@@ -24,12 +24,24 @@ void printing() {
     }
 }
 
+vector<int> restore_path(int src, int disti, vector<int> &parent) {
+    vector<int> path;
+
+    for (int v = disti; v != src; v = parent[v]) {
+        path.push_back(v);
+    }
+
+    path.push_back(src);
+    reverse(path.begin(), path.end());
+
+    return path;
+}
+
 void dijkstra(int nodes, int src) {
-    int disti;
-    cin >> disti;
     priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
     vector<bool> visited(nodes + 1, false);
     vector<int> distance(nodes + 1, INT32_MAX);
+    vector<int> parent(nodes + 1, -1);
 
     distance[src] = 0;
     pq.push({0, src});
@@ -51,20 +63,31 @@ void dijkstra(int nodes, int src) {
             if(!visited[v] && distance[v] > distance[u] + w) {
                 distance[v] = distance[u] + w;
                 pq.push({distance[v], v});
+                parent[v] = u;
             }
         }
-
-        // for (int i = 0; i <= nodes; i++) {
-        //     cout << distance[i] << " ";
-        // }
-
-        // cout << "\n";
     }
 
-    if(distance[disti] == INT32_MAX)
-        cout << "NO\n";
-    else
-        cout << distance[disti] << "\n";
+    cout << "[Distances]" << "\n";
+    for (int i = 0; i <= nodes; i++) {
+        cout << distance[i] << " ";
+    }
+
+    cout << "\n\n";
+
+    cout << "[Parents]" << "\n";
+    for (int i = 0; i <= nodes; i++) {
+            cout << parent[i] << " ";
+    }
+    
+    cout << "\n\n";
+
+    // path printing.
+    vector<int> path = restore_path(src, 4, parent);
+    cout << "[Path from src to distination]" << "\n";
+    for (int i = 0; i < path.size(); i++) {
+        cout << path[i] << " ";
+    }
 }
 
 void solve() {
@@ -77,7 +100,7 @@ void solve() {
         cin >> u >> v >> w;
 
         adj[u].push_back({v, w});
-        // adj[v].push_back({u, w});
+        adj[v].push_back({u, w});
     }
 
     // printing();
@@ -101,7 +124,7 @@ int main() {
     start();
 
     int tt = 1;
-    cin >> tt;
+    // cin >> tt;
  
     while(tt--)
     {
