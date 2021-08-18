@@ -42,7 +42,7 @@ void bellman_ford(int nodes, int src) {
         }
     }    
 
-    cout << "[Distnace]\n";
+    cout << "\n[Distnace]\n";
     for(int i = 0; i < nodes; i++) {
         cout << distance[i] << " ";
     }
